@@ -13,13 +13,7 @@ Go to > peeano-frontend
 Go to > peeano-backend
 - run 'nodemon server' to start node server
 
-#### Required Packages (should be included with this project, but in case it doesn't work install these packages manually)
-- express
-- body-parser
-- cors
-- mongoose
-
-#### Install these packages globally
+#### Install these packages globally (REQUIRED)
 ⬇ Installing nodemon
 
 `sudo npm install -g nodemon`
@@ -35,3 +29,10 @@ Go to > peeano-backend
 You can start mongodb using `mongod`.
 
 Running mongodb: `mongo` in terminal.
+
+#### Other Packages 
+##### Should be included with this project, but in case it doesn't work install these packages manually.
+- express
+- body-parser
+- cors
+- mongoose
