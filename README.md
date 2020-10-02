@@ -13,13 +13,13 @@ Go to > peeano-frontend
 Go to > peeano-backend
 - run 'nodemon server' to start node server
 
-#### Required Packages
+#### Required Packages (should be included with this project, but in case it doesn't work install these packages manually)
 - express
 - body-parser
 - cors
 - mongoose
 
-##### Install globally
+#### Install these packages globally
 ⬇ Installing nodemon
 
 `sudo npm install -g nodemon`
