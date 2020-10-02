@@ -12,6 +12,7 @@ Go to > peeano-frontend
 ### Node/Express/MongoDB Backend
 Go to > peeano-backend
 - run `nodemon server` to start node server
+
 Note: Backend is not complete (as in mongoDB is local, not in the cloud yet.)
 
 # 
