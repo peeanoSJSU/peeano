@@ -21,12 +21,17 @@ Go to > peeano-backend
 
 ##### Install globally
 `// Installing nodemon`
+
 `sudo npm install -g nodemon`
 
 `// Installing MongoDB with brew`
+
 `brew tap mongodb/brew`
+
 `brew install mongodb-community`
+
 `brew services start mongodb-community`
 
 You can start mongodb using `mongod`
+
 Running mongodb: `mongo` on terminal
