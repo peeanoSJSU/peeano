@@ -12,3 +12,21 @@ Go to > peeano-frontend
 ### Node/Express/MongoDB Backend
 Go to > peeano-backend
 - run 'nodemon server' to start node server
+
+#### Required Packages
+- express
+- body-parser
+- cors
+- mongoose
+
+##### Install globally
+`// Installing nodemon`
+`sudo npm install -g nodemon`
+
+`// Installing MongoDB with brew`
+`brew tap mongodb/brew`
+`brew install mongodb-community`
+`brew services start mongodb-community`
+
+You can start mongodb using `mongod`
+Running mongodb: `mongo` on terminal
