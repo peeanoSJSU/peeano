@@ -7,11 +7,12 @@ Go to > p5 > p5-peeano
 
 ### React Frontend
 Go to > peeano-frontend
-- run 'npm start' to view react project
+- run `npm start` to view react project
 
 ### Node/Express/MongoDB Backend
 Go to > peeano-backend
-- run 'nodemon server' to start node server
+- run `nodemon server` to start node server
+Note: Backend is not complete (as in mongoDB is local, not in the cloud yet.)
 
 # 
 
