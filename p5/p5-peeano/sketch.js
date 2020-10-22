@@ -1,23 +1,60 @@
+/*
+Map files: https://github.com/processing/p5.js-sound/tree/master/lib
+*/
+
+
 var canvas;
 var state = 0; // 0 for guest/new user, 1 for logged in person with customized keymaps, 2 for keyboard key reassignment
 var currentUser;
 var keyArray = [];
 
-var defaultKeyMapping = {
-	"c1" : ["white", "a", "soundFile.audio", 20],
-	"c1#" : ["black", "s", "soundFile.audio", 40],
-	"d1" : ["white", "d", "soundFile.audio", 50],
-	"d1#" : ["black", "f", "soundFile.audio", 70],
-	"e1" : ["white", "e", "soundFile.audio", 80],
+var soundFiles = [
+	"https://nguyenshana.github.io/piano-sounds/c1.m4a",
+	"https://nguyenshana.github.io/piano-sounds/c1sharp.m4a",
+	"https://nguyenshana.github.io/piano-sounds/d1.m4a",
+	"https://nguyenshana.github.io/piano-sounds/d1sharp.m4a",
+	"https://nguyenshana.github.io/piano-sounds/e1.m4a",
+	"https://nguyenshana.github.io/piano-sounds/f1.m4a",
+	"https://nguyenshana.github.io/piano-sounds/f1sharp.m4a",
+	"https://nguyenshana.github.io/piano-sounds/g1.m4a",
+	"https://nguyenshana.github.io/piano-sounds/g1sharp.m4a",
+	"https://nguyenshana.github.io/piano-sounds/a1.m4a",
+	"https://nguyenshana.github.io/piano-sounds/a1sharp.m4a",
+	"https://nguyenshana.github.io/piano-sounds/b1.m4a",
+	"https://nguyenshana.github.io/piano-sounds/c2.m4a"
+]
 
-	"f1" : ["white", "f", "soundFile.audio", 110],
-	"f1#" : ["black", "g", "soundFile.audio", 130],
-	"g1" : ["white", "h", "soundFile.audio", 140],
-	"g1#" : ["black", "j", "soundFile.audio", 160],
-	"a1" : ["white", "l", "soundFile.audio", 170],
-	"a1#" :["black", "j", "soundFile.audio", 190],
-	"c2" : ["white", "l", "soundFile.audio", 200]
+var defaultKeyMapping = {
+	"c1" : ["white", "a", soundFiles[0], 20],
+	"c1#" : ["black", "s", soundFiles[1], 40],
+	"d1" : ["white", "d", soundFiles[2], 50],
+	"d1#" : ["black", "e", soundFiles[3], 70],
+	"e1" : ["white", "f", soundFiles[4], 80],
+
+	"f1" : ["white", "g", soundFiles[5], 110],
+	"f1#" : ["black", "h", soundFiles[6], 130],
+	"g1" : ["white", "j", soundFiles[7], 140],
+	"g1#" : ["black", "u", soundFiles[8], 160],
+	"a1" : ["white", "k", soundFiles[9], 170],
+	"a1#" :["black", "i", soundFiles[10], 190],
+	"c2" : ["white", "l", soundFiles[11], 200]
 }
+
+// var whiteThenBlackKeys = {
+// 	"c1" : ["white", "a", "soundFile.audio", 20],
+// 	"d1" : ["white", "d", "soundFile.audio", 50],
+// 	"e1" : ["white", "e", "soundFile.audio", 80],
+// 	"f1" : ["white", "f", "soundFile.audio", 110],
+// 	"g1" : ["white", "h", "soundFile.audio", 140],
+// 	"a1" : ["white", "l", "soundFile.audio", 170],
+// 	"c2" : ["white", "l", "soundFile.audio", 200],
+
+// 	"c1#" : ["black", "s", "soundFile.audio", 40],
+// 	"d1#" : ["black", "f", "soundFile.audio", 70],
+// 	"f1#" : ["black", "g", "soundFile.audio", 130],
+// 	"g1#" : ["black", "j", "soundFile.audio", 160],
+// 	"a1#" :["black", "j", "soundFile.audio", 190]
+// }
 
 
 /************************** GENERAL FUNCTIONS *****************************/
@@ -26,24 +63,9 @@ var defaultKeyMapping = {
 function setup() 
 {
 	noLoop();
-}
+	strokeWeight(4);
 
-
-// not sure if this can actually be called from React
-function setState(stateNum) 
-{
-	state = stateNum;
-}
-
-
-// currently drawing keys in order from left to right
-
-function draw() 
-{
-	canvas = createCanvas(windowWidth, windowHeight);
-	if(state == 0) // new user or guest (if first time logged in, automatically set their keymapps to default; this needs to be toggled in React)
-	{
-		// Creating keys & adding them to PianoKey array
+	if(state == 0) {
 		var addKeyIndex = 0;
 		for(var note in defaultKeyMapping) 
 		{
@@ -59,7 +81,31 @@ function draw()
 		}
 
 		currentUser = new User(keyArray);
+	}
 
+}
+
+
+// not sure if this can actually be called from React
+function setState(stateNum) 
+{
+	state = stateNum;
+}
+
+
+// currently drawing keys in order from left to right
+function draw() 
+{
+	fill(0);
+	canvas = createCanvas(windowWidth, windowHeight);
+	if(state == 0) // new user or guest (if first time logged in, automatically set their keymapps to default; this needs to be toggled in React)
+	{
+
+		// draws keys
+		for(var i = 0; i < keyArray.length; i++) 
+		{
+			keyArray[i].drawKey();
+		}
 		drawMapButton();
 
 		print("state = 0");
@@ -141,9 +187,14 @@ function keyPressed()
 		// 
 		// loop through ALL of list to find corresponding key(s) & then play the audio
 		//
+		for(var i = 0; i < keyArray.length; i++) {
+			if(keyArray[i].getKeyboardKey() == key) {
+				keyArray[i].drawPressedKey();
+			}
+		}
 	}
 	else if (state == 2) { // change the keymapping and notify user
-		text(`Key pressed: ${key} (no piano key selected to remap)`, textX, textY);
+		// text(`Key pressed: ${key} (no piano key selected to remap)`, textX, textY);
 
 		if(currentSelectedKey != null) 
 		{
@@ -163,6 +214,11 @@ function keyPressed()
 	}
 
 } // end keyPressed()
+
+
+function keyReleased() {
+	redraw();
+}
 
 
 /**
@@ -260,12 +316,13 @@ class PianoKey
 	{
 		this.note = note;
 		this.keyboardKey = keyboardKey;
-		// this.sound = loadSound(sound);
+		this.sound = loadSound(sound);
 		this.startY = 20;
 	}
 
 	play() {
 		print(`${this.note} is played with keyboard key ${this.keyboardKey}`);
+		this.sound.play();
 	}
 
 	contains(x, y) 
@@ -288,6 +345,10 @@ class PianoKey
 		return this.note;
 	}
 
+	getKeyboardKey() {
+		return this.keyboardKey;
+	}
+
 }
 
 
@@ -307,6 +368,17 @@ class WhiteKey extends PianoKey
 
 	drawKey() {
 		this.drawWhiteKey();
+	}
+
+	// 75 because that's the height of a black key
+	drawPressedKey() {
+		strokeWeight(0);
+		fill(200)
+		rect(this.startX, this.startY + 75, this.width, this.height - 75);
+		strokeWeight(4);
+		fill(0);
+		text(this.keyboardKey, this.startX + this.width/2 , this.startY + this.height - 5);
+		super.play();
 	}
 
 	drawWhiteKey() {
@@ -337,6 +409,14 @@ class BlackKey extends PianoKey
 
 	drawKey() {
 		this.drawBlackKey();
+	}
+
+	drawPressedKey() {
+		fill(100);
+		rect(this.startX, this.startY, this.width, this.height);
+		fill(255);
+		text(this.keyboardKey, this.startX + this.width/2 , this.startY + this.height - 5);
+		super.play()
 	}
 
 	drawBlackKey() {
