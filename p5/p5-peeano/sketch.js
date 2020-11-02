@@ -4,9 +4,12 @@ Map files: https://github.com/processing/p5.js-sound/tree/master/lib
 
 
 var canvas;
-var state = 0; // 0 for guest/new user, 1 for logged in person with customized keymaps, 2 for keyboard key reassignment
+var state = 0; // 0 for guest/new user, 1 for logged in person with customized keymaps, 2 for keyboard key reassignment, 3 for recording
 var currentUser;
 var keyArray = [];
+
+var recording = {};
+var startTime = 0;
 
 var soundFiles = [
 	"https://nguyenshana.github.io/piano-sounds/c1.m4a",
@@ -108,10 +111,12 @@ function draw()
 		}
 		drawMapButton();
 
+		drawRecordButton();
+
 		print("state = 0");
 
 	} 
-	else if (state == 1) // someone is logged in 
+	else if (state == 1) // someone is logged in; basically same as 0
 	{
 		// draws keys
 		for(var i = 0; i < keyArray.length; i++) 
@@ -119,6 +124,8 @@ function draw()
 			keyArray[i].drawKey();
 		}
 		drawMapButton();
+
+		drawRecordButton();
 
 		print("state = 1 :)");
 
@@ -133,6 +140,18 @@ function draw()
 		drawPlayButton();
 
 		print("state = 2 :))");
+	}
+	else if (state == 3) // recording
+	{
+		// draws keys
+		for(var i = 0; i < keyArray.length; i++) 
+		{
+			keyArray[i].drawKey();
+		}
+
+		drawEndRecordingButton();
+
+		print("state = 3");
 	}
 
 } // end draw()
@@ -168,6 +187,35 @@ function drawPlayButton() {
 }
 
 
+/* RECORDING BUTTON SECTION */
+
+var rbuttonX = 300;
+var rbuttonY = 50;
+var rbuttonWidth = 100;
+var rbuttonHeight = 30;
+
+/**
+Draws button to display for user to change to map mode
+*/
+function drawRecordButton() {
+	fill(0);
+	rect(rbuttonX, rbuttonY, rbuttonWidth, rbuttonHeight);
+	fill(255);
+	text('Record', rbuttonX + 30, rbuttonY + 20);
+}
+
+
+/**
+Draws button to display for user to change to regular mode
+*/
+function drawEndRecordingButton() {
+	fill(255);
+	rect(rbuttonX, rbuttonY, rbuttonWidth, rbuttonHeight);
+	fill(0);
+	text('End Recording', rbuttonX + 10, rbuttonY + 20);
+}
+
+
 
 /* USER INPUT SECTION (keyboard key press or mouse click) */
 
@@ -182,7 +230,7 @@ function keyPressed()
 {
 	redraw();
 	fill(0);
-	if(state == 0 || state == 1) {
+	if(state == 0 || state == 1 || state == 3) {
 		text(`Key pressed: ${key}`, textX, textY);
 		// 
 		// loop through ALL of list to find corresponding key(s) & then play the audio
@@ -212,6 +260,15 @@ function keyPressed()
 			currentSelectedKey = null;
 		}
 	}
+	if (state == 3) { // recording
+		var selectedKey;
+		for(var i = 0; i < keyArray.length; i++) {
+			if(keyArray[i].getKeyboardKey() == key) {
+				selectedKey = keyArray[i];
+				recording[millis() - startTime] = selectedKey;
+			}
+		}
+	}
 
 } // end keyPressed()
 
@@ -227,18 +284,37 @@ Function is called when mouse left button is pressed
 function mouseClicked()
 {
 	// state button is pressed
-	if(mouseX > buttonX && mouseX < buttonX + buttonWidth && mouseY > buttonY && mouseY < buttonY + buttonHeight) {
-		if(state == 2) {
+	if(mouseX > buttonX && mouseX < buttonX + buttonWidth && mouseY > buttonY && mouseY < buttonY + buttonHeight) 
+	{
+		if(state == 2) 
+		{
 			state = 1;
 			redraw();
 		}
-		else if (state == 0 || state == 1) {
+		else if (state == 0 || state == 1) 
+		{
 			state = 2;
 			redraw();
-		}
-	}
-	else if(state == 2) {
+		} 
+	} 
+	else if(state == 2) 
+	{ // see if user if selecting a key to remap
 		currentSelectedKey = selectKeyToRemap();
+	}
+	if(mouseX > rbuttonX && mouseX < rbuttonX + rbuttonWidth && mouseY > rbuttonY && mouseY < rbuttonY + rbuttonHeight) 
+	{
+		if(state == 0 || state == 1) 
+		{ // starting recording
+			state = 3;
+			recording = {};
+			startTime = millis();
+		}
+		else if(state == 3) 
+		{ // ending recording
+			state = 1;
+			currentUser.addRecording();
+		}
+		redraw();
 	}
 
 } // end mouseClicked()
@@ -438,6 +514,9 @@ class User
 	// keys input is an array of PianoKeys, both WhiteKey and BlackKey
 	constructor(keys) {
 		this.allKeys = keys;
+		// format for recordings [{},{}]
+		// recording = {timeInMillisec, PianoKey}
+		this.recordings = [];
 	}
 
 	updateKeyMappings(keys) {
@@ -464,6 +543,17 @@ class User
 
 	getKeyMappings() {
 		return this.allKeys;
+	}
+
+	addRecording() {
+		this.recordings.push(recording);
+		// for(var time in recording) {
+		// 	print(time, recording[time].getNote());
+		// }
+	}
+
+	getRecordings() {
+		return this.recordings;
 	}
 
 } // end User
