@@ -6,12 +6,14 @@ Go to > p5 > p5-peeano
 - sketch.js contains the javascript code for the piano 
 
 ### Download p5 dependencies for React
-Install p5 
-`npm i react-p5` 
+Install p5:  
+- `npm i react-p5` 
 
-Might need these if it's not working 
-`npm i p5`  
-`npm i react-p5-wrapper` 
+Might need these if it's not working: 
+- `npm i p5`  
+- `npm i react-p5-wrapper` 
+
+#
 
 ### React Frontend
 Go to > peeano-frontend
