@@ -1,12 +1,14 @@
-import React from 'react'
+import React from 'react';
+import './style.css';
 
-export default function signup() {
+function Signup() {
     return (
-        <div>
-            <h1>Sign up</h1>
-            <form>
-
-            </form>
+    	<div className='linkBody'>
+    		<div className='titleContainer'>
+            	<h1 className='pageTitle'>Welcome to the sign up page</h1>
+        	</div>
         </div>
-    )
+    );
 }
+
+export default Signup;
