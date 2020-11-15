@@ -1,0 +1,59 @@
+div, body, html {
+	height: 100%;
+	margin: 0;
+}
+
+.linkBody{
+	background: url('./images/piano3.jpg') no-repeat center center fixed;
+	height: 100%;
+	background-size: cover;
+}
+
+.container{
+	width: 50%;
+	margin: auto;
+}
+
+.titleContainer{
+	width: 80%;
+	margin: auto;
+}
+
+.pageTitle{
+	color: gray;
+	text-align: center;
+	font-weight: normal;
+	padding: 10px;
+/*	border-bottom-style: solid;
+	border-bottom-width: 3px;
+	border-bottom-color: gray;	*/
+}
+
+.community{
+	background: url('./images/piano.jpg') no-repeat center center fixed;
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 100%;
+	max-height: 100%;
+	opacity: 100;
+}
+
+.unlist{
+	list-style-type: none;
+	text-align: center;
+	border: 5px solid gray;
+	border-radius: 15px;
+	padding: 20px;
+	width: 100%;
+	margin: auto;
+}
+
+.unlist li{
+	text-align: center;
+	font-size: 20px;
+	padding: 10px;
+}
+
+.space{
+	font-size: 20px;
+}
