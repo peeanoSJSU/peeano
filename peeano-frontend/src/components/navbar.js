@@ -38,9 +38,9 @@ function Navbar(){
 						PEEANO <i className='fas fa-headphones-alt fa-fw' />
 					</Link>
 
-					<div className='menu-icon' onClick={handleClick}>
+					<block className='menu-icon' onClick={handleClick}>
 						<i className={click ? 'fas fa-times' : 'fas fa-bars'} />
-					</div>
+					</block>
 					<ul className={click ? 'mainnav-menu active' : 'mainnav-menu'}>
 
 						<li className='mainnav-item'>
