@@ -4,6 +4,7 @@
 
 import React, { useEffect } from "react";
 import * as p5 from "p5";
+
  
 const PianoSketch = () => {
 
@@ -432,7 +433,7 @@ const PianoSketch = () => {
         p5.strokeWeight(0);
         p5.fill(200)
         p5.rect(this.startX, this.startY + 75, this.width, this.height - 75);
-        p5.strokeWeight(4);
+        p5.strokeWeight(1);
         p5.fill(0);
         p5.text(this.keyboardKey, this.startX + this.width/2 , this.startY + this.height - 5);
         super.play();
@@ -470,7 +471,7 @@ const PianoSketch = () => {
 
       drawPressedKey() {
         p5.fill(100);
-        p5.rect(this.startX, this.startY, this.width, this.height);
+        p5.rect(this.startX + 1, this.startY, this.width - 2, this.height - 1);
         p5.fill(255);
         p5.text(this.keyboardKey, this.startX + this.width/2 , this.startY + this.height - 5);
         super.play()

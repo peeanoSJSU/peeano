@@ -69,6 +69,7 @@
  *
  *   Web Audio API: http://w3.org/TR/webaudio/
  */
+ import * as p5 from "p5";
 
 
  (function(modules) { 
