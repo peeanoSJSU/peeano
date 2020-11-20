@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 const {MongoClient} = require('mongodb');
 const uri = "mongodb+srv://alanparksjsu:peeanosjsu@cluster0.t2kms.mongodb.net/peeano?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
+var userTest = "";
 async function main() {
 	try {
 		await client.connect();
@@ -27,6 +28,7 @@ async function main() {
 
 		const myDoc = await col.findOne({"username":"test"});
 		console.log(myDoc);
+		userTest = myDoc;
 
 	} catch (e) {
 		console.error(e);
@@ -41,6 +43,8 @@ async function listDatabases(client) {
 	console.log("Databases: ");
 	databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 };
+
+
 // END MONGODB Atlas
 
 mongoose.connect('mongodb://127.0.0.1:27017/peeano', { useNewUrlParser: true });
@@ -95,7 +99,7 @@ peeanoRoutes.route('/add').post(function(req, res) {
 
 app.use('/peeano', peeanoRoutes);
 
-app.get('/hey', (req, res) => res.send('This is the node backend'));
+app.get('/hey', (req, res) => res.send(userTest));
 
 app.listen(PORT, function() {
 	console.log("Server is running on port: " + PORT);
