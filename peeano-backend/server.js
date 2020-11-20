@@ -95,6 +95,8 @@ peeanoRoutes.route('/add').post(function(req, res) {
 
 app.use('/peeano', peeanoRoutes);
 
+app.get('/hey', (req, res) => res.send('This is the node backend'));
+
 app.listen(PORT, function() {
 	console.log("Server is running on port: " + PORT);
 });

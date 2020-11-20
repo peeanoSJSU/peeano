@@ -15,7 +15,7 @@ import './components/navbar.css';
 function App() {
   return (
   	//<Main />
-    <PianoSketch />
+    // <PianoSketch />
   	<Router>
   		<Switch>
   			<Navbar>
@@ -38,7 +38,7 @@ function App() {
             <Link to='/community'/>
             <Route path='/community' component={Community}/>
 
-            
+
 
   	</Router>
   );
