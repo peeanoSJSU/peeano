@@ -9,13 +9,12 @@ import Login from './components/login';
 import Signup from './components/signup';
 import Community from './components/community';
 import './components/navbar.css';
-// import P5Wrapper from 'react-p5-wrapper';
-// import Test from './sketches/Test';
+import P5Wrapper from 'react-p5-wrapper';
+import Test from './sketches/Test';
 
 function App() {
   return (
   	//<Main />
-    <PianoSketch />
   	<Router>
   		<Switch>
   			<Navbar>
@@ -38,7 +37,6 @@ function App() {
             <Link to='/community'/>
             <Route path='/community' component={Community}/>
 
-            
 
   	</Router>
   );
