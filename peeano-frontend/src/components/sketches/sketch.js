@@ -4,7 +4,6 @@
 
 import React, { useEffect } from "react";
 import * as p5 from "p5";
-
  
 const PianoSketch = () => {
 
@@ -93,6 +92,9 @@ const PianoSketch = () => {
     {
       p5.fill(0);
       canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight);
+      canvas.parent('pianoPage');
+      canvas.position(550,345);
+
       if(state === 0) // new user or guest (if first time logged in, automatically set their keymapps to default; this needs to be toggled in React)
       {
 

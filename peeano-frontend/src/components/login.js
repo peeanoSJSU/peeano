@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import { useState } from "react";
-
+import './style.css';
 
 
 export default function Login() {
@@ -14,10 +14,13 @@ export default function Login() {
         event.preventDefault();
     }
     return (
+    <div className='linkBody'>
+        <h1 className='pageTitle'>Login page</h1>
+    <div className='sitefit'>
         <div className="Login">
             <form onSubmit={handleSubmit}>
-                <FormGroup controlId="username" bsSize="sm">
-                    <FormLabel>Username</FormLabel>
+                <FormGroup className='loginlabels' controlId="username" bsSize="sm">
+                    <FormLabel className='loginlabels'>Username</FormLabel>
                     <FormControl
                         autoFocus
                         type="text"
@@ -25,7 +28,7 @@ export default function Login() {
                         onChange={e => setUsername(e.target.value)}
                     />
                 </FormGroup>
-                <FormGroup controlId="password" bsSize="sm">
+                <FormGroup className='loginlabels' controlId="password" bsSize="sm">
                     <FormLabel>Password</FormLabel>
                     <FormControl
                         value={password}
@@ -33,11 +36,13 @@ export default function Login() {
                         type="password"
                     />
                 </FormGroup>
-                <Button block bsSize="large" disabled={!performValidation()} type="submit">
+                <Button className='loginButton' block bsSize="large" disabled={!performValidation()} type="submit">
                     Login
                 </Button>
             </form>
         </div>
+    </div>
+    </div>
     );
 }
 

@@ -5,7 +5,7 @@ function Signup() {
     return (
     	<div className='linkBody'>
     		<div className='titleContainer'>
-            	<h1 className='pageTitle'>Welcome to the sign up page</h1>
+            	<h1 className='pageTitle'>Signup page</h1>
         	</div>
         </div>
     );
