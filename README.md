@@ -15,6 +15,11 @@ Might need these if it's not working:
 
 #
 
+### Bootstrap styling:
+- `npm install react-bootstrap bootstrap`
+
+#
+
 ### React Frontend
 Go to > peeano-frontend
 - run `npm start` to view react project

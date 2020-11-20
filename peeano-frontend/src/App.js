@@ -15,8 +15,8 @@ import './components/navbar.css';
 function App() {
   return (
   	//<Main />
-  	<Router>
     <PianoSketch />
+  	<Router>
   		<Switch>
   			<Navbar>
   				<Route exact path='/' />
