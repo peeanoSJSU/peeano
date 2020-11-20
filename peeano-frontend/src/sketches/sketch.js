@@ -1,9 +1,6 @@
-// import React from "react";
-// import 'p5/lib/addons/p5.sound';
-
-
 import React, { useEffect } from "react";
-import * as p5 from "p5";
+import "p5/lib/addons/p5.sound.min";
+import * as p5 from 'p5';
 
  
 const PianoSketch = () => {
@@ -376,12 +373,12 @@ const PianoSketch = () => {
       {
         this.note = note;
         this.keyboardKey = keyboardKey;
-        // this.sound = p5.loadSound(sound);
+        this.sound = p5.loadSound(sound);
         this.startY = 20;
       }
 
       play() {
-        // this.sound.play();
+        this.sound.play();
       }
 
       contains(x, y) 
