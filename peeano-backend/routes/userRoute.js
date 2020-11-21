@@ -18,4 +18,17 @@ router.route("/signup").post((req, res) => {
     }
 });
 
+router.route('/login').post((req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if (User.find( { $and: [{username : username}, {password: password}]}) == null) {
+        res.json({foundUser: "did not find a user: " + req.body.username});
+    } else {
+        res.json({foundUser: "We found user: " + req.body.username});
+    }
+});
+
+
+
 module.exports = router;
