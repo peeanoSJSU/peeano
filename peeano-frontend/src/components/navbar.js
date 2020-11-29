@@ -50,8 +50,8 @@ function Navbar(){
 						</li>
 
 						<li className='mainnav-item'>
-							<Link to='/community' className='mainnav-links' onClick={closeMobileMenu}>
-								Community Tracks <i className='fas fa-user-friends fa-fw fa-fw' />
+							<Link to='/recordings' className='mainnav-links' onClick={closeMobileMenu}>
+								Recordings <i className='fas fa-play-circle fa-fw fa-fw' />
 							</Link>
 						</li>
 

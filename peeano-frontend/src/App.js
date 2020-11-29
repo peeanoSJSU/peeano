@@ -6,7 +6,7 @@ import Navbar from './components/navbar';
 import Home from './components/home';
 import Login from './components/login';
 import Signup from './components/signup';
-import Community from './components/community';
+import Recordings from './components/recordings';
 import './components/navbar.css';
 
 function App() {
@@ -30,8 +30,8 @@ function App() {
             <Link to='/login'/>
             <Route path='/login' component={Login}/>
 
-            <Link to='/community'/>
-            <Route path='/community' component={Community}/>
+            <Link to='/recordings'/>
+            <Route path='/recordings' component={Recordings}/>
 
   	</Router>
 
