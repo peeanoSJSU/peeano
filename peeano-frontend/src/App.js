@@ -8,6 +8,11 @@ import Login from './components/login';
 import Signup from './components/signup';
 import Recordings from './components/recordings';
 import './components/navbar.css';
+<<<<<<< HEAD
+=======
+import P5Wrapper from 'react-p5-wrapper';
+import Test from './sketches/Test';
+>>>>>>> 27ca6f3c82ddff5c9bdebef116726d0598c95b5e
 
 function App() {
   return (
@@ -30,8 +35,14 @@ function App() {
             <Link to='/login'/>
             <Route path='/login' component={Login}/>
 
+<<<<<<< HEAD
             <Link to='/recordings'/>
             <Route path='/recordings' component={Recordings}/>
+=======
+            <Link to='/community'/>
+            <Route path='/community' component={Community}/>
+
+>>>>>>> 27ca6f3c82ddff5c9bdebef116726d0598c95b5e
 
   	</Router>
 

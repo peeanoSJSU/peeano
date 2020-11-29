@@ -1,6 +1,11 @@
 import React from 'react';
+<<<<<<< HEAD
 import PianoSketch from './sketches/sketch';
 import './style.css';
+=======
+import './style.css';
+
+>>>>>>> 27ca6f3c82ddff5c9bdebef116726d0598c95b5e
 
 function Home() {
     return (
