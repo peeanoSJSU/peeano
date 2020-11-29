@@ -4,7 +4,6 @@ import { useState } from "react";
 import axios from 'axios';
 
 
-
 export default function Login() {
 
         // axios.get('/login');
@@ -44,6 +43,9 @@ export default function Login() {
 
 
     return (
+    <div className='linkBody'>
+        <h1 className='pageTitle'>Login</h1>
+    <div className='sitefit'>
         <div className="Login">
             {/* <form onSubmit={handleSubmit}>
                 <FormGroup controlId="username" bsSize="sm">
@@ -55,7 +57,7 @@ export default function Login() {
                         onChange={e => setUsername(e.target.value)}
                     />
                 </FormGroup>
-                <FormGroup controlId="password" bsSize="sm">
+                <FormGroup className='loginlabels' controlId="password" bsSize="sm">
                     <FormLabel>Password</FormLabel>
                     <FormControl
                         value={password}
@@ -63,7 +65,7 @@ export default function Login() {
                         type="password"
                     />
                 </FormGroup>
-                <Button block bsSize="large" disabled={!performValidation()} type="submit">
+                <Button className='loginButton' block bsSize="large" disabled={!performValidation()} type="submit">
                     Login
                 </Button>
             </form> */}
@@ -74,5 +76,7 @@ export default function Login() {
                 <button onClick={handleClick} className="btn btn-primary" id="submitbtn">Submit</button>
             </form>
         </div>
+    </div>
+    </div>
     );
 }
