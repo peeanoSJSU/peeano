@@ -35,6 +35,20 @@ div, body, html {
 	font-size: 25px;
 }
 
+.homeTitle{
+	width: 100%;
+	margin: auto;
+	opacity: 50%;
+	color: black;
+	text-align: center;
+	font-weight: normal;
+	font-size: 10;
+	padding: 10px;
+	background-color: transparent;
+	background-opacity: 50%;
+	border: 5px white;
+}
+
 .pageTitle{
 	width: 100%;
 	margin: auto;
@@ -61,7 +75,9 @@ div, body, html {
 	opacity: 100;
 }
 
+
 .pianoBckgrd{
+	position: sticky;
 	opacity: 100%;
 	text-align: center;
 	background-color: white;

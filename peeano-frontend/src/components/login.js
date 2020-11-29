@@ -15,7 +15,7 @@ export default function Login() {
     }
     return (
     <div className='linkBody'>
-        <h1 className='pageTitle'>Login page</h1>
+        <h1 className='pageTitle'>Login</h1>
     <div className='sitefit'>
         <div className="Login">
             <form onSubmit={handleSubmit}>
