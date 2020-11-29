@@ -7,7 +7,7 @@ function Home() {
     	<div className='linkBody'>
 			<div className='mainContainer'>
 				<div className='titleContainer'>
-					<h1 className='pageTitle'>Welcome to Peeano virtual piano</h1>
+					<h1 className='homeTitle'></h1>
 					<div className='pianoBckgrd'>
 						<div id='pianoPage'> <PianoSketch/> </div>
 					</div>
@@ -18,3 +18,15 @@ function Home() {
 }
 
 export default Home;
+
+
+    	<div className='linkBody'>
+			<div className='mainContainer'>
+				<div className='titleContainer'>
+					<h1 className='pageTitle'>Welcome to Peeano virtual piano</h1>
+					<div className='pianoBckgrd'>
+						<div id='pianoPage'> <PianoSketch/> </div>
+					</div>
+				</div>
+			</div>
+		</div>

@@ -4,7 +4,7 @@
 
 import React, { useEffect } from "react";
 import * as p5 from "p5";
- 
+
 const PianoSketch = () => {
 
   const Sketch = p5 => {
@@ -92,9 +92,10 @@ const PianoSketch = () => {
     {
       p5.fill(0);
       //canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight);
-      canvas = p5.createCanvas(1920, 500);
+      canvas = p5.createCanvas(500, 300);
       canvas.parent('pianoPage');
-      canvas.position(550,345);
+      //canvas.position(550,345);
+      canvas.position(40, 20, 'relative');
 
       if(state === 0) // new user or guest (if first time logged in, automatically set their keymapps to default; this needs to be toggled in React)
       {
@@ -149,10 +150,14 @@ const PianoSketch = () => {
 
     /* BUTTON SECTION */
 
+    //let buttonX = 300;
+    //et buttonY = 100;
     let buttonX = 300;
     let buttonY = 100;
-    let buttonWidth = 180;
-    let buttonHeight = 30;
+    //let buttonWidth = 180;
+    //let buttonHeight = 30;
+    let buttonWidth = 190;
+    let buttonHeight = 50;
 
     /**
     Draws button to display for user to change to map mode
@@ -161,7 +166,7 @@ const PianoSketch = () => {
       p5.fill(0);
       p5.rect(buttonX, buttonY, buttonWidth, buttonHeight);
       p5.fill(255);
-      p5.text('Click here to change mappings', buttonX + 7, buttonY + 20);
+      p5.text('Click here to change mappings', buttonX + 12, buttonY + 28);
     }
 
 
@@ -172,16 +177,18 @@ const PianoSketch = () => {
       p5.fill(255);
       p5.rect(buttonX, buttonY, buttonWidth, buttonHeight);
       p5.fill(0);
-      p5.text('Click here to play piano', buttonX + 25, buttonY + 20);
+      p5.text('Click here to play piano', buttonX + 32, buttonY + 28);
     }
 
 
     /* RECORDING BUTTON SECTION */
 
     let rbuttonX = 300;
-    let rbuttonY = 50;
-    let rbuttonWidth = 100;
-    let rbuttonHeight = 30;
+    let rbuttonY = 30;
+    //let rbuttonWidth = 100;
+    //let rbuttonHeight = 30;
+    let rbuttonWidth = 140;
+    let rbuttonHeight = 50;
 
     /**
     Draws button to display for user to change to map mode
@@ -190,7 +197,7 @@ const PianoSketch = () => {
       p5.fill(0);
       p5.rect(rbuttonX, rbuttonY, rbuttonWidth, rbuttonHeight);
       p5.fill(255);
-      p5.text('Record', rbuttonX + 30, rbuttonY + 20);
+      p5.text('Record', rbuttonX + 50, rbuttonY + 30);
     }
 
 
@@ -201,7 +208,7 @@ const PianoSketch = () => {
       p5.fill(255);
       p5.rect(rbuttonX, rbuttonY, rbuttonWidth, rbuttonHeight);
       p5.fill(0);
-      p5.text('End Recording', rbuttonX + 10, rbuttonY + 20);
+      p5.text('End Recording', rbuttonX + 30, rbuttonY + 30);
     }
 
 
