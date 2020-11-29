@@ -91,7 +91,8 @@ const PianoSketch = () => {
     p5.draw = () =>
     {
       p5.fill(0);
-      canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight);
+      //canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight);
+      canvas = p5.createCanvas(1920, 500);
       canvas.parent('pianoPage');
       canvas.position(550,345);
 
