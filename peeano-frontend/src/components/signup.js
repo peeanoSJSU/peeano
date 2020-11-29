@@ -31,17 +31,11 @@ function Signup() {
 
     return (
     	<div className='linkBody'>
-<<<<<<< HEAD
-    		<div className='titleContainer'>
-            	<h1 className='pageTitle'>Signup</h1>
-        	</div>
-=======
 			<form id="signup-form">
 				<input onChange={handleChange} name="username" className="form-control" value={input.username} type="text" placeholder="Username" id="username"></input>
 				<input onChange={handleChange} name="password" className="form-control" value={input.password} type="password" placeholder="Password" id="password"></input>
 				<button onClick={handleClick} className="btn btn-primary" id="submitbtn">Submit</button>
 			</form>
->>>>>>> 27ca6f3c82ddff5c9bdebef116726d0598c95b5e
         </div>
     );
 }
