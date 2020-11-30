@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Navbar from './components/navbar';
 import Home from './components/home';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import Login from './components/login';
+import Signup from './components/signup';
 import Recordings from './components/recordings';
 import './components/navbar.css';
 
