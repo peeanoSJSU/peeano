@@ -1,6 +1,4 @@
-<<<<<<< HEAD
+peeano-backend/.env
 *.DS_store
-=======
-.DS_Store
 peeano-frontend/node_modules/.cache/*
->>>>>>> 59d334afa61786dfa61f6c1a6f965580e53747db
+

@@ -1,0 +1,106 @@
+const express = require('express');
+const router = express.Router();
+const User = require('../models/userModel'); // User model
+const Recording = require('../models/recordingModel'); // Recording model
+// Password hashing
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+// User
+const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth.js');
+
+router.route("/signup").post(async (req, res) => { // Sign up
+    try {
+        const foundUser = await User.findOne({username: req.body.username}); // Find user with username
+        if (foundUser) { // If username already exists in database. TODO: Fix, it is adding data twice.
+            res.json({success: false});
+        }
+        else { // else, create new user.
+            const username = req.body.username;
+            const password = req.body.password;
+
+            const hashedPass = await bcrypt.hash(password, saltRounds); // Hashed password
+
+            const newUser = new User({
+                username,
+                password: hashedPass
+            });
+
+            await newUser.save(); // Save user to database
+        }
+    }
+    catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.route('/login').post(async (req, res) => { // Login
+    try {
+        const password = req.body.password;
+
+        const user = await User.findOne({ username: req.body.username});
+        if (!user) {
+            // No account registered
+            res.json({
+                result: "no user exists with this username"
+            })
+        } else {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                // Wrong password
+                res.json({
+                    result: "wrong password"
+                })
+            } else {
+                const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
+                res.json({
+                    token,
+                    user: {
+                        username: user.username
+                    }
+                })
+            }
+        }
+    }
+    catch(err) {
+        res.status(500).json({error: err.message});
+    }
+
+
+});
+
+router.route('/tokenIsValid').post(async (req, res) => {
+    try {
+        const token = req.header('x-auth-token');
+        if (!token) return res.json(false);
+
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        if (!verified) return res.json(false);
+
+        const user = await User.findById(verified.id);
+        if (!user) return res.json(false);
+
+        return res.json(true);
+    }
+    catch(err) {
+
+    }
+});
+
+router.route('/user').get(auth, async (req, res) => {
+    const user = await User.findById(req.user);
+    res.json({
+        username: user.username,
+        id: user._id
+    });
+});
+
+router.route('/saveRecording').post(auth, async(req, res) => {
+    try {console.log(req.user);}
+    catch(err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+
+module.exports = router;
