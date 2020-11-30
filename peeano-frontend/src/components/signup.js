@@ -34,7 +34,7 @@ export default function Signup() {
 
 	return (
 		<div>
-			<form>
+			<form onSubmit={submit}>
 				<input type="text" id="signup-username" onChange={(e) => setUsername(e.target.value)}></input>
 				<input type="password" id="signup-password" onChange={(e) => setPassword(e.target.value)}></input>
 
