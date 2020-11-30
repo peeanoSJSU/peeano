@@ -2,16 +2,17 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const PORT = 3001;
-
-// let Peeano = require('./peeano.model');
-let Users = require('./users.model');
 
 app.use(cors());
 app.use(express.json());
+dotenv.config();
 
-// Connect to mongoose
-mongoose.connect('mongodb+srv://alanparksjsu:peeanosjsu@cluster0.t2kms.mongodb.net/peeano?retryWrites=true&w=majority');
+// Connect to mongoose (credentials in .env file).
+mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`);
+
+console.log("DB connected");
 app.use('/', require('./routes/userRoute'));
 
 app.listen(PORT, function() {

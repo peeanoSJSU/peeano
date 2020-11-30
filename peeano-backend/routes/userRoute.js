@@ -1,34 +1,97 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/userModel');
+const User = require('../models/userModel'); // User model
+const Recording = require('../models/recordingModel'); // Recording model
+// Password hashing
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+// User
+const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth.js');
 
-router.route("/signup").post((req, res) => {
-    if (User.findOne({username: req.body.username}) == null) { // If username already exists in database.
-        res.json({success: false});
+router.route("/signup").post(async (req, res) => { // Sign up
+    try {
+        const foundUser = await User.findOne({username: req.body.username}); // Find user with username
+        if (foundUser) { // If username already exists in database. TODO: Fix, it is adding data twice.
+            res.json({success: false});
+        }
+        else { // else, create new user.
+            const username = req.body.username;
+            const password = req.body.password;
+
+            const hashedPass = await bcrypt.hash(password, saltRounds); // Hashed password
+
+            const newUser = new User({
+                username,
+                password: hashedPass
+            });
+
+            await newUser.save(); // Save user to database
+        }
     }
-    else { // else, create new user.
-        const username = req.body.username;
+    catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.route('/login').post(async (req, res) => { // Login
+    try {
         const password = req.body.password;
-        const newUser = new User({
-            username,
-            password
-        });
 
-        newUser.save();
+        const user = await User.findOne({ username: req.body.username});
+        if (!user) {
+            // No account registered
+            res.json({
+                result: "no user exists with this username"
+            })
+        } else {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                // Wrong password
+                res.json({
+                    result: "wrong password"
+                })
+            } else {
+                const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
+                res.json({
+                    token,
+                    user: {
+                        username: user.username
+                    }
+                })
+            }
+        }
+    }
+    catch(err) {
+        res.status(500).json({error: err.message});
+    }
+
+
+});
+
+router.route('/tokenIsValid').post(async (req, res) => {
+    try {
+        const token = req.header('x-auth-token');
+        if (!token) return res.json(false);
+
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        if (!verified) return res.json(false);
+
+        const user = await User.findById(verified.id);
+        if (!user) return res.json(false);
+
+        return res.json(true);
+    }
+    catch(err) {
+
     }
 });
 
-router.route('/login').post((req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-
-    if (User.find( { $and: [{username : username}, {password: password}]}) == null) {
-        res.json({foundUser: "did not find a user: " + req.body.username});
-    } else {
-        res.json({foundUser: "We found user: " + req.body.username});
+router.route('/saveRecording').post(auth, async(req, res) => {
+    try {console.log(req.user);}
+    catch(err) {
+        res.status(500).json({error: err.message});
     }
 });
-
-
 
 module.exports = router;
