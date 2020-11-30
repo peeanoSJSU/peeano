@@ -1,80 +1,39 @@
-import React from 'react'
-import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
-import { useState } from "react";
+import React, {useState, useContext} from 'react';
+import {useHistory} from 'react-router-dom';
+import UserContext from '../context/UserContext';
 import axios from 'axios';
 
-
-
 export default function Login() {
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
 
-    	// axios.get('/login');
-	const [input, setInput] = useState({
-		username: '',
-		password: ''
-	});
-	function handleChange(event) {
-		const {name, value} = event.target;
+    const {setUserData} = useContext(UserContext);
+    const history = useHistory();
 
-		setInput(prevInput => {
-			return {...prevInput,
-				[name]: value
-			}
-		})
-	}
+    const submit = async (e) => {
+        e.preventDefault();
+        const loginUser = {username, password};
+        const loginRes = await axios.post("http://localhost:3001/login", loginUser);
 
-	function handleClick(event) {
-		event.preventDefault();
-		const userInfo = {
-			username: input.username,
-			password: input.password
-		}
+        if (!loginRes) { // If no user found, don't leave login page.
+            alert("no user!");
+        }
 
-		axios.post('http://localhost:3001/login', userInfo);
-	}
-
-    // const [username, setUsername] = useState("");
-    // const [password, setPassword] = useState("");
-    // function performValidation() {
-    //     return username.length > 0 && password.length > 0;
-    // }
-    // function handleSubmit(event) {
-    //     event.preventDefault();
-    // }
-
-
+        setUserData({
+            token: loginRes.data.token,
+            user: loginRes.data.user
+        })
+        localStorage.setItem("auth-token", loginRes.data.token);
+        history.push("/");
+    }
 
     return (
-        <div className="Login">
-            {/* <form onSubmit={handleSubmit}>
-                <FormGroup controlId="username" bsSize="sm">
-                    <FormLabel>Username</FormLabel>
-                    <FormControl
-                        autoFocus
-                        type="text"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                    />
-                </FormGroup>
-                <FormGroup controlId="password" bsSize="sm">
-                    <FormLabel>Password</FormLabel>
-                    <FormControl
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        type="password"
-                    />
-                </FormGroup>
-                <Button block bsSize="large" disabled={!performValidation()} type="submit">
-                    Login
-                </Button>
-            </form> */}
-
-            <form id="login-form">
-				<input onChange={handleChange} name="username" className="form-control" value={input.username} type="text" placeholder="Username" id="login-username"></input>
-				<input onChange={handleChange} name="password" className="form-control" value={input.password} type="password" placeholder="Password" id="login-password"></input>
-				<button onClick={handleClick} className="btn btn-primary" id="submitbtn">Submit</button>
-			</form>
+        <div>
+            <form onSubmit={submit}>
+                <input id="login-username" type="text" onChange={(e) => setUsername(e.target.value)}></input>
+                <input id="login-password" type="password" onChange={(e) => setPassword(e.target.value)}></input>
+                <input type="submit" value="Login"></input>
+            </form>
         </div>
-    );
+    )
 }
-
-

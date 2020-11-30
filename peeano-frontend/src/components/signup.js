@@ -1,43 +1,45 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react'
+import {useHistory} from 'react-router-dom';
 import axios from 'axios';
-import './style.css';
+import UserContext from '../context/UserContext';
 
-function Signup() {
+export default function Signup() {
 
-	// axios.get('/login');
-	const [input, setInput] = useState({
-		username: '',
-		password: ''
-	});
-	function handleChange(event) {
-		const {name, value} = event.target;
+	const [username, setUsername] = useState();
+	const [password, setPassword] = useState();
 
-		setInput(prevInput => {
-			return {...prevInput,
-				[name]: value
-			}
-		})
-	}
+	const {setUserData} = useContext(UserContext);
+	const history = useHistory();
 
-	function handleClick(event) {
-		event.preventDefault();
+	const submit = async (e) => {
+		e.preventDefault();
 		const newUser = {
-			username: input.username,
-			password: input.password
+			username,
+			password
 		}
 
-		axios.post('http://localhost:3001/signup', newUser);
-	}
+		await axios.post('http://localhost:3001/signup', newUser);
 
-    return (
-    	<div className='linkBody'>
-			<form id="signup-form">
-				<input onChange={handleChange} name="username" className="form-control" value={input.username} type="text" placeholder="Username" id="username"></input>
-				<input onChange={handleChange} name="password" className="form-control" value={input.password} type="password" placeholder="Password" id="password"></input>
-				<button onClick={handleClick} className="btn btn-primary" id="submitbtn">Submit</button>
+		const loginRes = await axios.post('http://localhost:3001/login', {
+			username,
+			password
+		});
+		setUserData({
+			token: loginRes.data.token,
+			user: loginRes.data.user
+		});
+		localStorage.setItem("auth-token", loginRes.data.token);
+		history.push("/");
+	};
+
+	return (
+		<div>
+			<form>
+				<input type="text" id="signup-username" onChange={(e) => setUsername(e.target.value)}></input>
+				<input type="password" id="signup-password" onChange={(e) => setPassword(e.target.value)}></input>
+
+				<input type="submit" value="Sign Up"></input>
 			</form>
-        </div>
-    );
+		</div>
+	)
 }
-
-export default Signup;
