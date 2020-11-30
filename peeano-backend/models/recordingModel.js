@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
 const recordingSchema = {
+    user_id: String,
     recording: Array,
-    username: String
+    trackName: String
 }
 
-const Recording = mongoose.model("Recording", recordingSchema, 'recordings'); // Table 'recordings'
+const Recording = mongoose.model("Recording", recordingSchema, 'recordings'); // Table 'users'
 
 module.exports = Recording;

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel'); // User model
 const Recording = require('../models/recordingModel'); // Recording model
+const Keybind = require('../models/keybindModel');
 // Password hashing
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -95,8 +96,83 @@ router.route('/user').get(auth, async (req, res) => {
     });
 });
 
+router.route('/getKeybinds').get(auth, async(req, res) => {
+    try{
+        const user = req.user;
+        const keybinds = await Keybind.findOne({user_id: user});
+        res.json({keybindings: keybinds.keybinds}); // Returns keybindings in JSON
+    }
+    catch(err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.route('/saveKeybinds').post(auth, async(req, res) => {
+    try {
+        const keybindToSave = req.body.keybinds;
+        const user = req.user;
+
+        const newKeybinds = new Keybind ({
+            user_id: user,
+            keybinds: keybindToSave
+        });
+
+        const foundEditedKeys = await Keybind.findOne({user_id: user});
+
+        if (foundEditedKeys) { // If already one exists
+            await db.collection('keybinds').updateOne({user_id: user}, {$set: {keybinds: keybindToSave}});
+            res.json({editedKeys: true});
+        } else {
+            await newKeybinds.save();
+            res.json({addedNewBinds: true});
+        }
+    }
+    catch(err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
 router.route('/saveRecording').post(auth, async(req, res) => {
-    try {console.log(req.user);}
+    try {
+        const recordingToSave = req.body.recording;
+        const user = req.user;
+        const trackNameToSave = req.body.trackName;
+
+        const foundTrackNameAlready = await Recording.findOne({trackName: trackNameToSave, user_id: user});
+
+        if (foundTrackNameAlready) {
+            return res.json({user_id: user, newRecordingAdded: false, reason: "found trackname already under user!"});
+        }
+
+        const newRecording = new Recording ({
+            user_id: user,
+            recording: recordingToSave,
+            trackName: trackNameToSave
+        });
+
+        await newRecording.save();
+        res.json({user_id: user, newRecordingAdded: true});
+
+    }
+    catch(err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.route('/getRecording').get(async(req, res) => {
+    try {
+        const userID = req.body.user;
+        const trackNameToGet = req.body.trackName;
+
+        const recording = await Recording.findOne({trackName: trackNameToGet, user_id: userID});
+
+        if (recording) {
+            res.json({user_id: userID, trackName: trackNameToGet, recording: recording.recording});
+        }
+        else {
+            return res.json({trackFound: false});
+        }
+    }
     catch(err) {
         res.status(500).json({error: err.message});
     }
