@@ -1,10 +1,8 @@
-// import React from "react";
-// import 'p5/lib/addons/p5.sound';
-
-
 import React, { useEffect } from "react";
-import * as p5 from "p5";
+import "p5/lib/addons/p5.sound.min";
+import * as p5 from 'p5';
 
+ 
 const PianoSketch = () => {
 
   const Sketch = p5 => {
@@ -17,36 +15,94 @@ const PianoSketch = () => {
     let recording = {};
     let startTime = 0;
 
+    let url = "https://nguyenshana.github.io/piano-sounds/"
+
     let soundFiles = [
-      "https://nguyenshana.github.io/piano-sounds/c1.m4a",
-      "https://nguyenshana.github.io/piano-sounds/c1sharp.m4a",
-      "https://nguyenshana.github.io/piano-sounds/d1.m4a",
-      "https://nguyenshana.github.io/piano-sounds/d1sharp.m4a",
-      "https://nguyenshana.github.io/piano-sounds/e1.m4a",
-      "https://nguyenshana.github.io/piano-sounds/f1.m4a",
-      "https://nguyenshana.github.io/piano-sounds/f1sharp.m4a",
-      "https://nguyenshana.github.io/piano-sounds/g1.m4a",
-      "https://nguyenshana.github.io/piano-sounds/g1sharp.m4a",
-      "https://nguyenshana.github.io/piano-sounds/a1.m4a",
-      "https://nguyenshana.github.io/piano-sounds/a1sharp.m4a",
-      "https://nguyenshana.github.io/piano-sounds/b1.m4a",
-      "https://nguyenshana.github.io/piano-sounds/c2.m4a"
+      url + "c0.mp3",
+      url + "c0s.mp3",
+      url + "d0.mp3",
+      url + "d0s.mp3",
+      url + "e0.mp3",
+      url + "f0.mp3",
+      url + "f0s.mp3",
+      url + "g0.mp3",
+      url + "g0s.mp3",
+      url + "a0.mp3",
+      url + "a0s.mp3",
+      url + "b0.mp3",
+
+      url + "c1.mp3",
+      url + "c1s.mp3",
+      url + "d1.mp3",
+      url + "d1s.mp3",
+      url + "e1.mp3",
+      url + "f1.mp3",
+      url + "f1s.mp3",
+      url + "g1.mp3",
+      url + "g1s.mp3",
+      url + "a1.mp3",
+      url + "a1s.mp3",
+      url + "b1.mp3",
+
+      url + "c2.mp3",
+      url + "c2s.mp3",
+      url + "d2.mp3",
+      url + "d2s.mp3",
+      url + "e2.mp3",
+      url + "f2.mp3",
+      url + "f2s.mp3",
+      url + "g2.mp3",
+      url + "g2s.mp3",
+      url + "a2.mp3",
+      url + "a2s.mp3",
+      url + "b2.mp3",
+      url + "c3.mp3"
     ]
 
     let defaultKeyMapping = {
-      "c1" : ["white", "a", soundFiles[0], 20],
-      "c1#" : ["black", "s", soundFiles[1], 40],
-      "d1" : ["white", "d", soundFiles[2], 50],
-      "d1#" : ["black", "e", soundFiles[3], 70],
-      "e1" : ["white", "f", soundFiles[4], 80],
+      "c0" : ["white", "1", soundFiles[0], 20],
+      "c0#" : ["black", "2", soundFiles[1], 40],
+      "d0" : ["white", "3", soundFiles[2], 50],
+      "d0#" : ["black", "4", soundFiles[3], 70],
+      "e0" : ["white", "5", soundFiles[4], 80],
 
-      "f1" : ["white", "g", soundFiles[5], 110],
-      "f1#" : ["black", "h", soundFiles[6], 130],
-      "g1" : ["white", "j", soundFiles[7], 140],
-      "g1#" : ["black", "u", soundFiles[8], 160],
-      "a1" : ["white", "k", soundFiles[9], 170],
-      "a1#" :["black", "i", soundFiles[10], 190],
-      "c2" : ["white", "l", soundFiles[11], 200]
+      "f0" : ["white", "6", soundFiles[5], 110],
+      "f0#" : ["black", "7", soundFiles[6], 130],
+      "g0" : ["white", "8", soundFiles[7], 140],
+      "g0#" : ["black", "9", soundFiles[8], 160],
+      "a0" : ["white", "0", soundFiles[9], 170],
+      "a0#" :["black", "-", soundFiles[10], 190],
+      "b0" : ["white", "=", soundFiles[11], 200],
+
+
+      "c1" : ["white", "a", soundFiles[12], 230],
+      "c1#" : ["black", "s", soundFiles[13], 250],
+      "d1" : ["white", "d", soundFiles[14], 260],
+      "d1#" : ["black", "f", soundFiles[15], 280],
+      "e1" : ["white", "g", soundFiles[16], 290],
+
+      "f1" : ["white", "h", soundFiles[17], 320],
+      "f1#" : ["black", "j", soundFiles[18], 340],
+      "g1" : ["white", "k", soundFiles[19], 350],
+      "g1#" : ["black", "l", soundFiles[20], 370],
+      "a1" : ["white", ";", soundFiles[21], 380],
+      "a1#" :["black", "'", soundFiles[22], 400],
+      "b1" : ["white", "/", soundFiles[23], 410],
+
+
+      "c2" : ["white", "q", soundFiles[24], 440],
+      "c2#" : ["black", "w", soundFiles[25], 460],
+      "d2" : ["white", "e", soundFiles[26], 470],
+      "d2#" : ["black", "r", soundFiles[27], 490],
+      "e2" : ["white", "t", soundFiles[28], 500],
+
+      "f2" : ["white", "y", soundFiles[29], 530],
+      "f2#" : ["black", "u", soundFiles[30], 550],
+      "g2" : ["white", "i", soundFiles[31], 560],
+      "g2#" : ["black", "o", soundFiles[32], 580],
+      "a2" : ["white", "p", soundFiles[33], 590],
+      "a2#" :["black", "[", soundFiles[34], 610],
+      "b2" : ["white", "]", soundFiles[35], 620]
     }
 
     // end main variables
@@ -76,6 +132,19 @@ const PianoSketch = () => {
 
         currentUser = new User(keyArray);
       }
+      /* if signed in: set state = 1 & get their key array
+      else if(state === 1) {
+        if they have a key array:
+        currentUser = new User(THEIR_KEY_ARRAY)        
+      }
+      */
+
+      /* if just creating a sketch to play recordings, don't draw anything
+      else if (state === 4) {
+        currentUser = new User(keyArray)
+        FOR EACH ITEM IN RECORDING ARRAY, CALL USER. ADD RECORDING
+      }
+      */
 
     }
 
@@ -91,12 +160,14 @@ const PianoSketch = () => {
     p5.draw = () =>
     {
       p5.fill(0);
-      //canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight);
-      canvas = p5.createCanvas(500, 300);
-      canvas.parent('pianoPage');
-      //canvas.position(550,345);
-      canvas.position(40, 20, 'relative');
-
+      // canvas = p5.createCanvas(900, p5.windowHeight);
+      if (state < 4) 
+      {
+        canvas = p5.createCanvas(900, 300);
+        canvas.parent('pianoPage');
+        //canvas.position(550,345);
+        canvas.position(100, 20, 'relative');
+      }
       if(state === 0) // new user or guest (if first time logged in, automatically set their keymapps to default; this needs to be toggled in React)
       {
 
@@ -106,8 +177,6 @@ const PianoSketch = () => {
           keyArray[i].drawKey();
         }
         p5.drawMapButton();
-
-        p5.drawRecordButton();
 
       } 
       else if (state === 1) // someone is logged in; basically same as 0
@@ -143,21 +212,26 @@ const PianoSketch = () => {
         p5.drawEndRecordingButton();
 
       }
+      else if (state === 4) // just playing recording, not display piano
+      {
+        p5.createCanvas(0, 0);
+      }
 
     } // end draw()
 
 
+    p5.windowResized = () => {
+      p5.redraw();
+    }
 
-    /* BUTTON SECTION */
 
-    //let buttonX = 300;
-    //et buttonY = 100;
+
+    /* MAPPING BUTTON SECTION */
+
     let buttonX = 300;
-    let buttonY = 100;
-    //let buttonWidth = 180;
-    //let buttonHeight = 30;
-    let buttonWidth = 190;
-    let buttonHeight = 50;
+    let buttonY = 200;
+    let buttonWidth = 180;
+    let buttonHeight = 30;
 
     /**
     Draws button to display for user to change to map mode
@@ -166,7 +240,7 @@ const PianoSketch = () => {
       p5.fill(0);
       p5.rect(buttonX, buttonY, buttonWidth, buttonHeight);
       p5.fill(255);
-      p5.text('Click here to change mappings', buttonX + 12, buttonY + 28);
+      p5.text('Click here to change mappings', buttonX + 7, buttonY + 20);
     }
 
 
@@ -177,18 +251,16 @@ const PianoSketch = () => {
       p5.fill(255);
       p5.rect(buttonX, buttonY, buttonWidth, buttonHeight);
       p5.fill(0);
-      p5.text('Click here to play piano', buttonX + 32, buttonY + 28);
+      p5.text('Click here to play piano', buttonX + 25, buttonY + 20);
     }
 
 
     /* RECORDING BUTTON SECTION */
 
-    let rbuttonX = 300;
-    let rbuttonY = 30;
-    //let rbuttonWidth = 100;
-    //let rbuttonHeight = 30;
-    let rbuttonWidth = 140;
-    let rbuttonHeight = 50;
+    let rbuttonX = 150;
+    let rbuttonY = 200;
+    let rbuttonWidth = 100;
+    let rbuttonHeight = 30;
 
     /**
     Draws button to display for user to change to map mode
@@ -197,7 +269,7 @@ const PianoSketch = () => {
       p5.fill(0);
       p5.rect(rbuttonX, rbuttonY, rbuttonWidth, rbuttonHeight);
       p5.fill(255);
-      p5.text('Record', rbuttonX + 50, rbuttonY + 30);
+      p5.text('Record', rbuttonX + 30, rbuttonY + 20);
     }
 
 
@@ -208,8 +280,9 @@ const PianoSketch = () => {
       p5.fill(255);
       p5.rect(rbuttonX, rbuttonY, rbuttonWidth, rbuttonHeight);
       p5.fill(0);
-      p5.text('End Recording', rbuttonX + 30, rbuttonY + 30);
+      p5.text('End Recording', rbuttonX + 10, rbuttonY + 20);
     }
+
 
 
 
@@ -308,9 +381,24 @@ const PianoSketch = () => {
         else if(state === 3) 
         { // ending recording
           state = 1;
-          currentUser.addRecording();
+          currentUser.addRecordingToDB();
         }
         p5.redraw();
+      }
+
+
+      let recordingsArray = currentUser.getRecordings();
+      p5.fill(0);
+      for(var nn = 0; nn < recordingsArray.length; nn++) 
+      {
+        var index = textY + 90;
+        p5.text(`Recording #${nn + 1}`, textX + (nn * 200), index - 30);
+        var keys = Object.keys(recordingsArray[nn]);
+        keys.forEach(key=>{
+          var note = recordingsArray[nn][key].getNote();
+          p5.text(`${key}ms --> ${note}`, textX + (nn * 200), index);
+          index += 20;
+        });
       }
 
     } // end mouseClicked()
@@ -386,12 +474,12 @@ const PianoSketch = () => {
       {
         this.note = note;
         this.keyboardKey = keyboardKey;
-        // this.sound = p5.loadSound(sound);
+        this.sound = p5.loadSound(sound);
         this.startY = 20;
       }
 
       play() {
-        // this.sound.play();
+        this.sound.play();
       }
 
       contains(x, y) 
@@ -538,21 +626,39 @@ const PianoSketch = () => {
         return this.allKeys;
       }
 
+      // This method adds the recording to the database
+      addRecordingToDB() {
+        this.recordings.push(recording);
+        // 
+        // ADD RECORDING ARRAY TO DATABASE
+        // 
+        console.log('added recording');
+        p5.fill(0);
+      }
+
+      // This method adds a recording to the p5 User object, not the database
       addRecording() {
         this.recordings.push(recording);
         console.log('added recording');
-        // var intx = 30;
-        // var inty = 200;
         p5.fill(0);
-        for(let time in recording) {
-         console.log(`${time} --> ${recording[time].getNote()}`);
-         // p5.text(`${time} --> ${recording[time].getNote()}`, intx, inty);
-         // inty += 10;
-        }
       }
 
       getRecordings() {
         return this.recordings;
+      }
+
+      playRecording(recordingIndex) {
+        var timeKeys = Object.keys(this.recordings[recordingIndex]);
+        var iteratingRecording = this.recordings[recordingIndex];
+        timeKeys.forEach(timeKeys=>{
+          this.playRecordingHelper(iteratingRecording[timeKeys], timeKeys);
+        });
+      } 
+
+      playRecordingHelper(note, waitTime) {
+        setTimeout(function() {
+            note.play();
+          }.bind(this), waitTime);
       }
 
     } // end User

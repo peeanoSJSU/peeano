@@ -9,7 +9,9 @@ function Home() {
 				<div className='titleContainer'>
 					<h1 className='homeTitle'></h1>
 					<div className='pianoBckgrd'>
-						<div id='pianoPage'> <PianoSketch/> </div>
+						<div id='pianoPage'> 
+							<PianoSketch/> 
+						</div>
 					</div>
 				</div>
 			</div>
