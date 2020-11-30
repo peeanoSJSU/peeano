@@ -87,11 +87,20 @@ router.route('/tokenIsValid').post(async (req, res) => {
     }
 });
 
+router.route('/user').get(auth, async (req, res) => {
+    const user = await User.findById(req.user);
+    res.json({
+        username: user.username,
+        id: user._id
+    });
+});
+
 router.route('/saveRecording').post(auth, async(req, res) => {
     try {console.log(req.user);}
     catch(err) {
         res.status(500).json({error: err.message});
     }
 });
+
 
 module.exports = router;

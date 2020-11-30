@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './navbar.css';
 import { Button } from './button';
 
+import AuthOptions from './auth/AuthOptions.js';
+
 
 function Navbar(){
 	const [click, setClick] = useState(false);
@@ -32,7 +34,7 @@ function Navbar(){
 		<>
 			<nav className='mainnavbar'>
 				<div className='mainnavbar-container'>
-					
+
 
 					<Link to='/' className='mainnavbar-title' onClick={closeMobileMenu}>
 						PEEANO <i className='fas fa-headphones-alt fa-fw' />
@@ -55,7 +57,7 @@ function Navbar(){
 							</Link>
 						</li>
 
-						<li className='mainnav-item'>
+						{/* <li className='mainnav-item'>
 							<Link to='/login' className='mainnav-links' onClick={closeMobileMenu}>
 								Login <i className='fas fa-user fa-fw' />
 							</Link>
@@ -65,10 +67,12 @@ function Navbar(){
 							<Link to='/signup' className='mainnav-links-mobile' onClick={closeMobileMenu}>
 								Sign Up <i className='fas fa-edit fa-fw' />
 							</Link>
-						</li>	
+						</li> */}
+
+						<AuthOptions />
 
 					</ul>
-					{button && <Button buttonStyle='btn--outline'>Sign Up <i className='fas fa-edit fa-fw' /> </Button>}
+					{/* {button && <Button buttonStyle='btn--outline'>Sign Up <i className='fas fa-edit fa-fw' /> </Button>} */}
 					</div>
 			</nav>
 		</>
