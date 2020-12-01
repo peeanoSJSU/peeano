@@ -112,22 +112,22 @@ router.route('/getKeybinds').get(async(req, res) => {
     }
 });
 
-router.route('/saveKeybinds').post(auth, async(req, res) => {
+router.route('/saveKeybinds').post(async(req, res) => {
     try {
         const keybindToSave = req.body.keybinds;
-        const user = req.user;
+        const user = req.body.user; // User ID
 
         const newKeybinds = new Keybind ({
             user_id: user,
             keybinds: keybindToSave
         });
 
-        const foundEditedKeys = await Keybind.findOne({user_id: user});
+        const foundEditedKeys = await Keybind.findOne({user_id: user}); // If there are already edited keys
 
         if (foundEditedKeys) { // If already one exists
             await db.collection('keybinds').updateOne({user_id: user}, {$set: {keybinds: keybindToSave}});
             res.json({editedKeys: true});
-        } else {
+        } else { // Otherwise add a new entry
             await newKeybinds.save();
             res.json({addedNewBinds: true});
         }
