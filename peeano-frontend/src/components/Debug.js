@@ -6,11 +6,21 @@ export default function Debug() {
 
     const {userData} = useContext(UserContext);
 
-    const getKeyMappings = async(e) => {
-        const keyBindRes = await axios.get("http://localhost:3001/getKeybinds", {user: userData.user.id});
+    const dummyData = ['a', 'b', 'c', 'w', 'z'];
+
+    const editedKeybinds = {
+        user: userData.user.id,
+        keybinds: dummyData
+    };
+
+    const saveKeyMappings = async(e) => {
+        const keyBindRes = await axios.post("http://localhost:3001/saveKeybinds", editedKeybinds);
         console.log(keyBindRes);
     }
-    if (userData.user) {getKeyMappings();} // If a valid user is logged in
+    if (userData.user) { // If a valid user is logged in
+
+        saveKeyMappings();
+    }
     return (
         <div>
 

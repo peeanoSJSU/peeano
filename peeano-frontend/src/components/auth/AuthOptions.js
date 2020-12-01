@@ -20,7 +20,7 @@ export default function AuthOptions() {
     }
 
     const buttonStyle = {
-        "margin-top": "5px"
+        marginTop: "5px"
     };
     return (
         <div className="mt-3 auth-options" >
