@@ -18,14 +18,18 @@ export default function AuthOptions() {
         });
         localStorage.setItem("auth-token", "");
     }
+
+    const buttonStyle = {
+        "margin-top": "5px"
+    };
     return (
-        <div className="mt-3 auth-options">
+        <div className="mt-3 auth-options" >
             {
                 userData.user ?
-                (<button onClick={logout} className="btn--outline">Log Out</button>) :
+                (<button onClick={logout} className="btn--outline" style={buttonStyle}>Log Out</button>) :
                 (<>
-                <button onClick={signup} className="btn--outline">Sign Up</button>
-                <button onClick={login} className="btn--outline">Login</button>
+                <button onClick={signup} className="btn--outline" style={buttonStyle}>Sign Up</button>
+                <button onClick={login} className="btn--outline" style={buttonStyle}>Login</button>
                 </>)
             }
         </div>
