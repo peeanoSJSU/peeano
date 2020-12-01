@@ -9,7 +9,7 @@ import Signup from './components/signup';
 import Recordings from './components/recordings';
 import './components/navbar.css';
 import Debug from './components/Debug.js';
-
+import SuccessSignUp from './components/SuccessSignUp';
 import UserContext from './context/UserContext.js';
 import axios from 'axios';
 
@@ -64,6 +64,7 @@ function App() {
 
             {/* <Link to='/alantest' /> */}
             <Route path='/debug' component={Debug} />
+            <Route path='/successsignup' component={SuccessSignUp} />
 
       </UserContext.Provider>
   	</Router>

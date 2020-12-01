@@ -17,10 +17,11 @@ export default function AuthOptions() {
             user: undefined
         });
         localStorage.setItem("auth-token", "");
+        history.go("0");
     }
 
     const buttonStyle = {
-        "margin-top": "5px"
+        marginTop: "5px"
     };
     return (
         <div className="mt-3 auth-options" >

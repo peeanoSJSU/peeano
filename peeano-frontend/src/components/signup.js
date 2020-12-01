@@ -8,9 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -48,7 +46,7 @@ export default function Signup() {
 	const {setUserData} = useContext(UserContext);
 	const history = useHistory();
 
-	const submit = async (e) => {
+	const submit = async (e) => { // Form requires button to be pressed twice to submit?
 		e.preventDefault();
 		const newUser = {
 			username,
@@ -66,7 +64,8 @@ export default function Signup() {
 			user: loginRes.data.user
 		});
 		localStorage.setItem("auth-token", loginRes.data.token);
-		history.push("/");
+		// history.push('/successsignup');
+		history.push('/');
 	};
 
 
