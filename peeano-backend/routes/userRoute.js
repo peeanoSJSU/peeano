@@ -28,6 +28,7 @@ router.route("/signup").post(async (req, res) => { // Sign up
             });
 
             await newUser.save(); // Save user to database
+            res.json({addedNewUser: true});
         }
     }
     catch (err) {

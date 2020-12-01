@@ -53,19 +53,23 @@ export default function Signup() {
 			password
 		}
 
-		await axios.post('http://localhost:3001/signup', newUser);
+		const createUser = await axios.post('http://localhost:3001/signup', newUser);
+		if (createUser.data.addedNewUser) {
+			history.push("/");
+		}
 
-		const loginRes = await axios.post('http://localhost:3001/login', {
-			username,
-			password
-		});
-		setUserData({
-			token: loginRes.data.token,
-			user: loginRes.data.user
-		});
-		localStorage.setItem("auth-token", loginRes.data.token);
+		/** All the auto-login stuff */
+		// const loginRes = await axios.post('http://localhost:3001/login', {
+		// 	username,
+		// 	password
+		// });
+		// setUserData({
+		// 	token: loginRes.data.token,
+		// 	user: loginRes.data.user
+		// });
+		// localStorage.setItem("auth-token", loginRes.data.token);
 		// history.push('/successsignup');
-		history.push('/');
+
 	};
 
 
