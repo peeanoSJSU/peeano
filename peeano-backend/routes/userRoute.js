@@ -170,7 +170,13 @@ router.route('/getRecording').get(async(req, res) => {
         const userID = req.body.user;
         const trackNameToGet = req.body.trackName;
 
-        const recording = await Recording.findOne({trackName: trackNameToGet, user_id: userID});
+        const recording = null;
+        if (trackNameToGet) {
+            recording = await Recording.findOne({trackName: trackNameToGet, user_id: userID});
+        }
+        else {
+            recording = await Recording.find({trackName: trackNameToGet, user_id: userID}); // Will return all tracks
+        }
 
         if (recording) {
             res.json({user_id: userID, trackName: trackNameToGet, recording: recording.recording});
