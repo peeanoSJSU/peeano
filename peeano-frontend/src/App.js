@@ -8,7 +8,7 @@ import Login from './components/login';
 import Signup from './components/signup';
 import Recordings from './components/recordings';
 import './components/navbar.css';
-
+import Debug from './components/Debug.js';
 
 import UserContext from './context/UserContext.js';
 import axios from 'axios';
@@ -61,6 +61,9 @@ function App() {
 
             <Link to='/login'/>
             <Route path='/login' component={Login}/>
+
+            {/* <Link to='/alantest' /> */}
+            <Route path='/debug' component={Debug} />
 
       </UserContext.Provider>
   	</Router>

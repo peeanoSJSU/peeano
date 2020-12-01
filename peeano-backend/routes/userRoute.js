@@ -96,11 +96,16 @@ router.route('/user').get(auth, async (req, res) => {
     });
 });
 
-router.route('/getKeybinds').get(auth, async(req, res) => {
+router.route('/getKeybinds').get(async(req, res) => {
     try{
-        const user = req.user;
+        const user = req.body.user;
         const keybinds = await Keybind.findOne({user_id: user});
-        res.json({keybindings: keybinds.keybinds}); // Returns keybindings in JSON
+        if (keybinds) {
+            res.json({keybindings: keybinds.keybinds}); // Returns keybindings in JSON
+        }
+        else {
+            res.json({keybindings: false});
+        }
     }
     catch(err) {
         res.status(500).json({error: err.message});
