@@ -10,7 +10,7 @@ export default function Debug() {
         const keyBindRes = await axios.get("http://localhost:3001/getKeybinds", {user: userData.user.id});
         console.log(keyBindRes);
     }
-    if (userData.user) {getKeyMappings();}
+    if (userData.user) {getKeyMappings();} // If a valid user is logged in
     return (
         <div>
 
