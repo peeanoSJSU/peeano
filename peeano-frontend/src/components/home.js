@@ -1,21 +1,91 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useContext} from 'react';
 import './style.css';
 
 import "p5/lib/addons/p5.sound.min";
 import * as p5 from 'p5';
 
+import UserContext from '../context/UserContext';
+import axios from 'axios';
+
+
+/*
+Problems:
+
+- p5 doesn't wait for keymappings to be received
+- p5 runs on every 
+- if start proj & is logged in, p5 can't tell because it doesn't wait for the db data to be retrieved
+- when logging out, need to refresh the page or else the record button and all the data will stay
+- Recording title: be able to get the amount of recordings that they have
+- the console.log(userData.user) in PianoSketch but outside Sketch is running twice for some reason
+
+*/
  
-const PianoSketch = () => {
+const PianoSketch = (props) => {
+
+  const {userData} = useContext(UserContext);
+  console.log(userData.user); 
+
+  // ** db keyMapping stuff
+
+  const getKeyMappings = async(e) => {
+      const keyBindRes = await axios.get("http://localhost:3001/getKeybinds", {user: userData.user.id});
+      console.log("getKeyMappings() = ", keyBindRes.data.keybindings);
+      return keyBindRes.data.keybindings;
+  }
+
+  // replace keybinds with keyArray & place within the Sketch
+  const setKeyMappings = async(e) => {
+      const keyBindRes = await axios.get("http://localhost:3001/getKeybinds", {user: userData.user.id , keybinds: []});
+      console.log("SetKeyMappings() = ", keyBindRes.data.editedKeys);
+  }
+
+  // ** db recording stuff
+
+  const getRecordings = async(e) => {
+      const recordingRes = await axios.get("http://localhost:3001/getRecording", {user: userData.user.id});
+      console.log("getRecordings() = ", recordingRes.data.trackName, recordingRes.data.recording);
+      // return the amount of recordings that they have? in order to title the next one
+  }
+
+
+  // change recording to recording array and trackName a changing number
+  const addRecordings = async(e) => {
+      const addedRecording = await axios.post("http://localhost:3001/saveRecording", {user: userData.user.id, recording: [], trackName: 1});
+      console.log("addRecording() = ", addedRecording.data.newRecordingAdded);
+  }
+
 
   const Sketch = p5 => {
 
     let canvas;
     let state = 0; // 0 for guest/new user, 1 for logged in person with customized keymaps, 2 for keyboard key reassignment, 3 for recording
+    let originalState = 0;
     let currentUser;
     let keyArray = [];
 
     let recording = {};
     let startTime = 0;
+
+    /* 
+       DB setup
+    */
+
+    if (userData.user) {
+      state = 1;
+      originalState = 1;
+      let userMappings = getKeyMappings();
+      if(userMappings.length === false)
+      {
+        console.log("setKey anyways");
+        keyArray = getKeyMappings();
+      }
+      getRecordings();
+    }
+
+    console.log("p5 user is: ", userData);
+
+    // end DB setup
+
 
     let url = "https://nguyenshana.github.io/piano-sounds/"
 
@@ -110,14 +180,13 @@ const PianoSketch = () => {
     // end main variables
 
 
-
     p5.setup = () => 
-    {    
+    {
 
+      console.log("setup, state = ", state);
       p5.noLoop();
       p5.strokeWeight(4);
 
-      console.log('hello');
       if(state === 0) {
         let addKeyIndex = 0;
         for(let note in defaultKeyMapping) 
@@ -135,12 +204,33 @@ const PianoSketch = () => {
 
         currentUser = new User(keyArray);
       }
-      /* if signed in: set state = 1 & get their key array
+      // if signed in: set state = 1 & get their key array
       else if(state === 1) {
-        if they have a key array:
-        currentUser = new User(THEIR_KEY_ARRAY)        
+        if (keyArray.length == 36)
+        {
+          console.log("enter 1");
+          currentUser = new User(keyArray); 
+        }
+        else 
+        {
+          console.log("enter 2");
+          let addKeyIndex = 0;
+          for(let note in defaultKeyMapping) 
+          {
+            if(defaultKeyMapping[note][0] === "white")
+            {
+              keyArray[addKeyIndex] = new WhiteKey(note, defaultKeyMapping[note][1], defaultKeyMapping[note][2], defaultKeyMapping[note][3]);
+            }
+            else 
+            {
+              keyArray[addKeyIndex] = new BlackKey(note, defaultKeyMapping[note][1], defaultKeyMapping[note][2], defaultKeyMapping[note][3]);
+            }
+            addKeyIndex += 1;
+          }
+
+          currentUser = new User(keyArray);
+        }
       }
-      */
 
       /* if just creating a sketch to play recordings, don't draw anything
       else if (state === 4) {
@@ -164,10 +254,9 @@ const PianoSketch = () => {
     {
 		if(window.location.pathname == "/" || window.location.pathname == "/home")
 		{
-		  	
 		  p5.fill(0);
 		  // canvas = p5.createCanvas(900, p5.windowHeight);
-		  console.log(window.location.pathname);
+		  console.log("draw");
 		  if (state < 4) 
 		  {
 		    canvas = p5.createCanvas(900, 300);
@@ -188,6 +277,7 @@ const PianoSketch = () => {
 		  else if (state === 1) // someone is logged in; basically same as 0
 		  {
 		    // draws keys
+        console.log("keyArray length = ", keyArray.length);
 		    for(let j = 0; j < keyArray.length; j++) 
 		    {
 		      keyArray[j].drawKey();
@@ -309,7 +399,7 @@ const PianoSketch = () => {
       	
 			p5.redraw();
 			p5.fill(0);
-			console.log("canvas size is");
+			console.log("keyPressed");
 			if(state === 0 || state === 1 || state === 3) {
 				p5.text(`Key pressed: ${p5.key}`, textX, textY);
 				// 
@@ -356,6 +446,7 @@ const PianoSketch = () => {
 
 
     p5.keyReleased = () => {
+      console.log("key released");
       p5.redraw();
     }
 
@@ -365,12 +456,20 @@ const PianoSketch = () => {
     */
     p5.mouseClicked = () =>
     {
-      // state button is pressed
+      console.log("mouse clicked");
+      // Remaping button is pressed
       if(p5.mouseX > buttonX && p5.mouseX < buttonX + buttonWidth && p5.mouseY > buttonY && p5.mouseY < buttonY + buttonHeight) 
       {
         if(state === 2) 
         {
-          state = 1;
+          if(originalState = 1) 
+          {
+            state = 1;
+          }
+          else 
+          {
+            state = 0;
+          }
           p5.redraw();
         }
         else if (state === 0 || state === 1) 
@@ -383,6 +482,7 @@ const PianoSketch = () => {
       { // see if user if selecting a key to remap
         currentSelectedKey = p5.selectKeyToRemap();
       }
+      // Recording button
       if(p5.mouseX > rbuttonX && p5.mouseX < rbuttonX + rbuttonWidth && p5.mouseY > rbuttonY && p5.mouseY < rbuttonY + rbuttonHeight) 
       {
         if(state === 0 || state === 1) 
@@ -399,7 +499,7 @@ const PianoSketch = () => {
         p5.redraw();
       }
 
-
+      // display recordings below the piano
       let recordingsArray = currentUser.getRecordings();
       p5.fill(0);
       for(let nn = 0; nn < recordingsArray.length; nn++) 
@@ -614,6 +714,9 @@ const PianoSketch = () => {
 
       updateKeyMappings(keys) {
         this.allKeys = keys;
+        // 
+        // ADD NEW MAPPING ARRAY TO DATABASE
+        // 
       } 
 
       // this resets the keyArray accessible throughout the entire file to the default mapping as well
@@ -691,19 +794,20 @@ const PianoSketch = () => {
 
 
 function Home() {
-    return (
-    	<div className='linkBody'>
-			<div className='mainContainer'>
-				<div className='titleContainer'>
-					<h1 className='homeTitle'></h1>
-					<div className='pianoBckgrd'>
-						<div id='pianoPage'> 
-							<PianoSketch/> 
-						</div>
+
+  return (
+  	<div className='linkBody'>
+		<div className='mainContainer'>
+			<div className='titleContainer'>
+				<h1 className='homeTitle'></h1>
+				<div className='pianoBckgrd'>
+					<div id='pianoPage'> 
+						<PianoSketch /> 
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	)
 }
 
