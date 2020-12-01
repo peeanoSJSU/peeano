@@ -252,8 +252,6 @@ const PianoSketch = (props) => {
     // currently drawing keys in order from left to right
     p5.draw = () =>
     {
-		if(window.location.pathname == "/" || window.location.pathname == "/home")
-		{
 		  p5.fill(0);
 		  // canvas = p5.createCanvas(900, p5.windowHeight);
 		  console.log("draw");
@@ -313,7 +311,6 @@ const PianoSketch = (props) => {
 		    p5.createCanvas(0, 0);
 		  }
 
-		}
     } // end draw()
 
 
@@ -395,53 +392,55 @@ const PianoSketch = (props) => {
     p5.keyPressed = () =>
     {
     	if(window.location.pathname == "/" || window.location.pathname == "/home")
-      	{
+      {
       	
-			p5.redraw();
-			p5.fill(0);
-			console.log("keyPressed");
-			if(state === 0 || state === 1 || state === 3) {
-				p5.text(`Key pressed: ${p5.key}`, textX, textY);
-				// 
-				// loop through ALL of list to find corresponding key(s) & then play the audio
-				//
-				for(let m = 0; m < keyArray.length; m++) {
-				  if(keyArray[m].getKeyboardKey() === p5.key) {
-				    keyArray[m].drawPressedKey();
-				  }
-				}
-			}
-			else if (state === 2) { // change the keymapping and notify user
-			// text(`Key pressed: ${key} (no piano key selected to remap)`, textX, textY);
+  			p5.redraw();
+  			p5.fill(0);
+  			console.log("keyPressed");
+  			if(state === 0 || state === 1 || state === 3) {
+  				p5.text(`Key pressed: ${p5.key}`, textX, textY);
+  				// 
+  				// loop through ALL of list to find corresponding key(s) & then play the audio
+  				//
+  				for(let m = 0; m < keyArray.length; m++) {
+  				  if(keyArray[m].getKeyboardKey() === p5.key) {
+  				    keyArray[m].drawPressedKey();
+  				  }
+  				}
+  			}
+  			else if (state === 2) { // change the keymapping and notify user
+  			// text(`Key pressed: ${key} (no piano key selected to remap)`, textX, textY);
 
-				if(currentSelectedKey != null) 
-				{
-				  let sameKeyIndex = 0;
-				  while(sameKeyIndex < keyArray.length) 
-				  {
-				    if(keyArray[sameKeyIndex] === currentSelectedKey) 
-				    {
-				      break;
-				    }
-				    sameKeyIndex += 1;
-				  }
-				  keyArray[sameKeyIndex].changeKeyboardKey();
-				  currentUser.updateKeyMappings(keyArray);
-				  currentSelectedKey = null;
-				}
-			}
-			if (state === 3) { // recording
-				let selectedKey;
-				for(let n = 0; n < keyArray.length; n++) {
-				  if(keyArray[n].getKeyboardKey() === p5.key) {
-				    selectedKey = keyArray[n];
-				    recording[p5.millis() - startTime] = selectedKey;
-				  }
-				}
-			}	
-
-		}
-
+  				if(currentSelectedKey != null) 
+  				{
+  				  let sameKeyIndex = 0;
+  				  while(sameKeyIndex < keyArray.length) 
+  				  {
+  				    if(keyArray[sameKeyIndex] === currentSelectedKey) 
+  				    {
+  				      break;
+  				    }
+  				    sameKeyIndex += 1;
+  				  }
+  				  keyArray[sameKeyIndex].changeKeyboardKey();
+  				  currentUser.updateKeyMappings(keyArray);
+  				  currentSelectedKey = null;
+  				}
+  			}
+  			if (state === 3) { // recording
+  				let selectedKey;
+  				for(let n = 0; n < keyArray.length; n++) {
+  				  if(keyArray[n].getKeyboardKey() === p5.key) {
+  				    selectedKey = keyArray[n];
+  				    recording[p5.millis() - startTime] = selectedKey;
+  				  }
+  				}
+  			}	
+		  }
+      else {
+        console.log("remove all");
+        p5.remove();
+      }
     } // end keyPressed()
 
 
@@ -456,64 +455,72 @@ const PianoSketch = (props) => {
     */
     p5.mouseClicked = () =>
     {
-      console.log("mouse clicked");
-      // Remaping button is pressed
-      if(p5.mouseX > buttonX && p5.mouseX < buttonX + buttonWidth && p5.mouseY > buttonY && p5.mouseY < buttonY + buttonHeight) 
+      console.log(window.location.pathname);
+      if(window.location.pathname == "/" || window.location.pathname == "/home")
       {
-        if(state === 2) 
+        console.log("mouse clicked");
+        // Remaping button is pressed
+        if(p5.mouseX > buttonX && p5.mouseX < buttonX + buttonWidth && p5.mouseY > buttonY && p5.mouseY < buttonY + buttonHeight) 
         {
-          if(originalState = 1) 
+          if(state === 2) 
           {
-            state = 1;
+            if(originalState = 1) 
+            {
+              state = 1;
+            }
+            else 
+            {
+              state = 0;
+            }
+            p5.redraw();
           }
-          else 
+          else if (state === 0 || state === 1) 
           {
-            state = 0;
-          }
-          p5.redraw();
-        }
-        else if (state === 0 || state === 1) 
-        {
-          state = 2;
-          p5.redraw();
+            state = 2;
+            p5.redraw();
+          } 
         } 
-      } 
-      else if(state === 2) 
-      { // see if user if selecting a key to remap
-        currentSelectedKey = p5.selectKeyToRemap();
-      }
-      // Recording button
-      if(p5.mouseX > rbuttonX && p5.mouseX < rbuttonX + rbuttonWidth && p5.mouseY > rbuttonY && p5.mouseY < rbuttonY + rbuttonHeight) 
-      {
-        if(state === 0 || state === 1) 
-        { // starting recording
-          state = 3;
-          recording = {};
-          startTime = p5.millis();
+        else if(state === 2) 
+        { // see if user if selecting a key to remap
+          currentSelectedKey = p5.selectKeyToRemap();
         }
-        else if(state === 3) 
-        { // ending recording
-          state = 1;
-          currentUser.addRecordingToDB();
+        // Recording button
+        if(p5.mouseX > rbuttonX && p5.mouseX < rbuttonX + rbuttonWidth && p5.mouseY > rbuttonY && p5.mouseY < rbuttonY + rbuttonHeight) 
+        {
+          if(state === 0 || state === 1) 
+          { // starting recording
+            state = 3;
+            recording = {};
+            startTime = p5.millis();
+          }
+          else if(state === 3) 
+          { // ending recording
+            state = 1;
+            currentUser.addRecordingToDB();
+          }
+          p5.redraw();
         }
-        p5.redraw();
-      }
 
-      // display recordings below the piano
-      let recordingsArray = currentUser.getRecordings();
-      p5.fill(0);
-      for(let nn = 0; nn < recordingsArray.length; nn++) 
+        // display recordings below the piano
+        let recordingsArray = currentUser.getRecordings();
+        p5.fill(0);
+        for(let nn = 0; nn < recordingsArray.length; nn++) 
+        {
+          let index = textY + 90;
+          p5.text(`Recording #${nn + 1}`, textX + (nn * 200), index - 30);
+          let keys = Object.keys(recordingsArray[nn]);
+          keys.forEach(key=>{
+            let note = recordingsArray[nn][key].getNote();
+            p5.text(`${key}ms --> ${note}`, textX + (nn * 200), index);
+            index += 20;
+          });
+        }
+      }
+      else 
       {
-        let index = textY + 90;
-        p5.text(`Recording #${nn + 1}`, textX + (nn * 200), index - 30);
-        let keys = Object.keys(recordingsArray[nn]);
-        keys.forEach(key=>{
-          let note = recordingsArray[nn][key].getNote();
-          p5.text(`${key}ms --> ${note}`, textX + (nn * 200), index);
-          index += 20;
-        });
+        console.log("remove all");
+        p5.remove();
       }
-
     } // end mouseClicked()
 
 
