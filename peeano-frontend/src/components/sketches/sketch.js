@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import "p5/lib/addons/p5.sound.min";
 import * as p5 from 'p5';
@@ -22,12 +22,13 @@ Problems:
 */
 
 
-const PianoSketch = (props) => {
+const PianoSketch = () => {
 
   const {userData} = useContext(UserContext);
   let recordingNumber = 0;
   const getRecordings = async(e) => {
     if(userData.user) {
+      console.log("outside sketch user = ", userData.user.id);
       const recordingRes = await axios.get("http://localhost:3001/getRecording", 
         {user: userData.user.id});
       console.log("getRecordings() = ", recordingRes.data);
@@ -55,14 +56,13 @@ const PianoSketch = (props) => {
        DB setup
     */
 
-    console.log(props.userData.user);
-    if (props.userData.user) {
+    console.log(userData.user);
+    if (userData.user) {
       state = 1;
       originalState = 1;
-      let recording = props.getRecordings;
     }
 
-    console.log("p5 user is: ", props.userData);
+    console.log("p5 user is: ", userData);
 
     // end DB setup
 
@@ -758,8 +758,9 @@ const PianoSketch = (props) => {
         console.log("starting to send recording to db");
         // change recording to recording array and trackName a changing number
         const addRecordings = async(e) => {
+            console.log("user adding recording ", userData.user.id);
             const addedRecording = await axios.post("http://localhost:3001/saveRecording", 
-              {user: props.userData.user.id, trackName: recordingNumber, recordingPiece: addToDB });
+              {user: userData.user.id, trackName: recordingNumber, recordingPiece: addToDB });
             console.log("addRecording() = ", addedRecording.data.newRecordingAdded);
             recordingNumber++;
         }
