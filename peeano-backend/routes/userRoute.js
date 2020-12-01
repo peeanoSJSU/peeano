@@ -138,10 +138,10 @@ router.route('/saveKeybinds').post(async(req, res) => {
     }
 });
 
-router.route('/saveRecording').post(auth, async(req, res) => {
+router.route('/saveRecording').post(async(req, res) => {
     try {
-        const recordingToSave = req.body.recording;
-        const user = req.user;
+        const recordingToSave = req.body.recordingPiece;
+        const user = req.body.user;
         const trackNameToSave = req.body.trackName;
 
         const foundTrackNameAlready = await Recording.findOne({trackName: trackNameToSave, user_id: user});
