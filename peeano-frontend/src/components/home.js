@@ -39,19 +39,6 @@ function Home() {
   }
 
 
-  // ** db recording stuff
-
-  const getRecordings = async(e) => {
-    if(userData.user) {
-      const recordingRes = await axios.get("http://localhost:3001/getRecording", 
-        {user: userData.user.id, trackNameToGet: 'IDK WHAT TRACK NAME'});
-      console.log("getRecordings() = ", recordingRes.data.trackName, recordingRes.data.recording);
-      // return the amount of recordings that they have? in order to title the next one
-    }
-    console.log("no user, no recordings");
-  }
-
-
   return (
   	<div className='linkBody'>
 		<div className='mainContainer'>
@@ -59,7 +46,7 @@ function Home() {
 				<h1 className='homeTitle'></h1>
 				<div className='pianoBckgrd'>
 					<div id='pianoPage'> 
-          <PianoSketch userData={userData} getKeyMappings={getKeyMappings()} getRecordings={getRecordings()}/> 
+          <PianoSketch userData={userData}/> 
 					</div>
 				</div>
 			</div>
