@@ -31,6 +31,10 @@
   /*font-family: "Times New Roman", Times, serif;*/
 }
 
+.transparent{
+  color: transparent;
+}
+
 .fa-typo3 {
   margin-left: 0.5rem;
   font-size: 10.8rem;

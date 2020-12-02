@@ -16,7 +16,7 @@ function Navbar(){
 
 	const showButton = () => {
 
-		if(window.innerWidth <= 960) {
+		if(window.innerWidth <= 1400) {
 			setButton(false);
 		} else {
 			setButton(true);
@@ -57,7 +57,10 @@ function Navbar(){
 							</Link>
 						</li>
 
-						{/* <li className='mainnav-item'>
+						<li className='transparent'>
+							<p1>.</p1>
+						</li>
+						{/*<li className='mainnav-item'>
 							<Link to='/login' className='mainnav-links' onClick={closeMobileMenu}>
 								Login <i className='fas fa-user fa-fw' />
 							</Link>
@@ -67,7 +70,7 @@ function Navbar(){
 							<Link to='/signup' className='mainnav-links-mobile' onClick={closeMobileMenu}>
 								Sign Up <i className='fas fa-edit fa-fw' />
 							</Link>
-						</li> */}
+						</li>*/}
 
 						<AuthOptions />
 

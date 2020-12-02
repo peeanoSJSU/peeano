@@ -75,7 +75,8 @@ export default function Signup() {
 
 	const classes = useStyles();
 	return (
-		<div>
+		<div className='linkBody'>
+		<div className='userInteractBlock'>
 			{/* <form onSubmit={submit}>
 				<input type="text" id="signup-username" onChange={(e) => setUsername(e.target.value)}></input>
 				<input type="password" id="signup-password" onChange={(e) => setPassword(e.target.value)}></input>
@@ -159,6 +160,7 @@ export default function Signup() {
 				<Box mt={5}>
 				</Box>
 			</Container>
+		</div>
 		</div>
 	)
 }

@@ -40,7 +40,7 @@ function Home() {
 
 
   return (
-  	<div className='linkBody'>
+  	<div className='pianolinkBody'>
 		<div className='mainContainer'>
 			<div className='titleContainer'>
 				<h1 className='homeTitle'></h1>

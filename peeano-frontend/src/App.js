@@ -62,6 +62,9 @@ function App() {
             <Link to='/login'/>
             <Route path='/login' component={Login}/>
 
+            <Link to='/recordings'/>
+            <Route path='/recordings' component={Recordings}/>
+
             {/* <Link to='/alantest' /> */}
             <Route path='/debug' component={Debug} />
             <Route path='/successsignup' component={SuccessSignUp} />

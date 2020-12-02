@@ -27,10 +27,10 @@ export default function AuthOptions() {
         <div className="mt-3 auth-options" >
             {
                 userData.user ?
-                (<button onClick={logout} className="btn--outline" style={buttonStyle}>Log Out</button>) :
+                (<button onClick={logout} className="btn--outline" style={buttonStyle}>Log Out <i className='fas fa-user fa-fw' /></button>) :
                 (<>
-                <button onClick={signup} className="btn--outline" style={buttonStyle}>Sign Up</button>
-                <button onClick={login} className="btn--outline" style={buttonStyle}>Login</button>
+                <button onClick={signup} className="btn--outline" style={buttonStyle}>Sign Up <i className='fas fa-edit fa-fw' /></button>
+                <button onClick={login} className="btn--outline" style={buttonStyle}>Login <i className='fas fa-user fa-fw' /></button>
                 </>)
             }
         </div>
